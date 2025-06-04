@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>
+        <!-- Vue会自动找到这 -->
+        歌曲名：{{songs[0].name}}，歌手：{{songs[0].singer}}，时长：{{songs[0].time}}
+      </h1>
+    </div>
+    <script>
+      /* 
+      Vue.config是Vue的全局配置对象
+      productionTip属性可以设置是否生产提示信息
+      默认值为true表示开启提示信息
+      */
+    //   Vue.config.productionTip = false;
+
+      /* 
+        关于template配置项：
+            1. template后面指定的模板语句有且只能有一个根元素
+                如果没有根元素则报错：Component template requires a root element, rather than just text.
+                如果有两个根元素则报错：Component template should contain exactly one root element. If you are using v-if on multiple elements, use v-else-if to chain them instead.
+            2. 只要data中的数据发生变化，模板语句就一定会重新编译
+            3. 如果使用template配置项的话，指定挂载位置的元素会被替换(这里会把div替换为h1)
+            4. 目前可以不把template配置项写在Vue实例中，也可以写在HTML中，Vue会自动找到然后渲染。只不过这样不会替换掉挂载的元素，而是作为子元素存在。这里h1会写进div里
+        关于$mount：
+            可以不用写$mount，在Vue实例中有一个属性el，这个属性的值就是挂载的元素。
+        */
+      new Vue({
+        // template:"<h1>歌曲名：{{songs[0].name}}，歌手：{{songs[0].singer}}，时长：{{songs[0].time}}</h1>",
+        data: {
+          songs: [{ name: "小苹果", singer: "筷子兄弟", time: "03:30" }],
+        },
+        el: "#app",
+      });
+    </script>
+  </body>
+</html>

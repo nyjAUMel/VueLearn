@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- Vue实例只接管第一个匹配到的元素 -->
+    <div class="app"></div>
+    <!-- 所以第一个Vue实例不会接管这个元素，第二个会接管 -->
+    <div class="app"></div>
+
+    <div id="app2"></div>
+    <script>
+        new Vue({
+            el: '.app',
+            template: '<h1>丁真</h1>'
+        })
+        new Vue({
+            el: '.app',
+            template: '<h1>宋亚轩</h1>'
+        })
+        new Vue({
+            el: '#app2',
+            template: '<h1>张真源</h1>'
+        })
+        // 这个实例不hi接管到#app2，因为上一个实例已经接管了。所以不是覆盖效果
+        new Vue({
+            el: '#app2',
+            template: '<h1>刘耀文</h1>'
+        })
+    </script>
+</body>
+</html>

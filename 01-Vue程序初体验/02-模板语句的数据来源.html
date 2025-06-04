@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>模板语句的数据来源</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      /* const myVue = new Vue({
+            template: "<h1>丁真</h1>"
+        })
+        myVue.$mount("#app") */
+
+      /* 
+        模板语句的数据来源：
+            1. 通过data选项，
+            2. data选项的类型是Object | Function (对象或者函数)
+            3. data配置项的专业名称是：Vue实例的数据对象(data实际上是给整个Vue实例提供数据来源的)
+            4. 如果data是对象的话，对象必须是纯粹的对象 (含有零个或多个的 key/value 对)
+        data数据插入到模板语句中的方法：
+            1. 通过{{}}语法(该语法是Vue实例提供的语法，浏览器和别的框架看不懂。)
+                这种语法在Vue实例中称为：模板语句中的插值语法(或叫胡子语法)
+                插值语法小细节：{这里不能有空格{这里可以有}}
+        */
+      new Vue({
+        template:
+          "<h1>最火的男团是{{name}}，他们的爱好是{{hobby}}。<br>作品有:{{composition.name}}，星数:{{composition.star}}<br>选手1是:{{player[0].name}}。选手2是:{{player[1].name}}</h1>",
+        data: {
+          // value为字符串
+          name: "时代少年团",
+          hobby: "唱歌",
+          // value为对象
+          composition: {
+            name: "Lemon(中文版)",
+            star: 1
+          },
+          // value为数组
+          player: [
+            {
+              name: "马嘉祺",
+              age: 23,
+              height: 180,
+            },
+            {
+                name: "丁程鑫",
+                age: 23,
+                height: 180,
+            },{
+                name: "宋亚轩",
+                age: 21,
+                height: 183,
+            },
+          ],
+        },
+      }).$mount("#app");
+    </script>
+  </body>
+</html>
