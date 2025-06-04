@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <!-- 
+    1. 通过Vue实例都可以访问哪些属性？(通过vm都可以。)
+        Vue实例中的属性有很多，有的以前缀$开头，有的以_开头，有的没有前缀。
+            所有以$开头的属性可以看作是公有属性，这些属性是供程序员使用的。
+            所有以_开头的属性可以看作是私有属性，这些属性是供Vue框架底层使用的，程序员不应该直接访问。
+            通过vm也可以访问Vue实例对象的原型对象上的属性，例如：vm.$mount、vm.$destroy等。
+    
+    -->
+    <div id="app">
+        <h1>{{message}}</h1>
+    </div>
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          message: "Hello, 丁真!",
+        },
+      });
+    </script>
+  </body>
+</html>

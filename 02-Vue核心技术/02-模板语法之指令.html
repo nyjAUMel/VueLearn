@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <!-- 
+    指令语法：
+        1. 什么是指令？指令的作用？
+            指令的职责是，当表达式的值改变时，将其产生的连带影响，响应式地作用于 DOM。
+        2. Vue中所有的指令都以v-开头
+        3. 指令的书写位置：
+            插值写在标签体当中，指令则写在标签属性位置
+            例：<span 指令>{{}}</span>
+        4. 指令的语法规则：
+            指令的一个完整的语法格式：
+                <HTML标签 v-指令名:参数="表达式"></HTML标签>
+                    表达式：
+                        之前在插值语法中{{}}里面写的表达式，都可以写在指令的表达式中(但注意，这里不需要{{}})
+                    参数：
+                        有的指令不需要参数，也不需要表达式。例如：v-once
+                        有的指令不需要参数，但需要表达式。例如：v-if="表达式"
+                        有的指令既需要参数，也需要表达式。例如：v-bind:href="表达式"
+        5. v-once
+            只渲染元素和组件一次，之后即使数据变化也不会重新渲染。
+        6. v-if
+            根据表达式的值的真假条件渲染元素，在切换时元素及它的数据绑定 / 组件被销毁并重建。
+            值为boolean类型:
+                true: 这个指令所在的标签会渲染到浏览器当中
+                false: 这个指令所在的标签不会渲染到浏览器当中
+                
+    -->
+    <div id="app">
+      <h1>{{ message }}</h1>
+      <!-- 也就是说，以后数据变化了，这个元素也不会重新渲染，还是第一次渲染的元素 -->
+      <h1 v-once>{{ message}}</h1>
+      <!-- false的话这个元素也不会显示在浏览器上 -->
+      <h1 v-if="a < b">{{ message }}</h1>
+    </div>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          message: "Hello Vue.js",
+          a: 1,
+          b: 2,
+        },
+      });
+    </script>
+  </body>
+</html>

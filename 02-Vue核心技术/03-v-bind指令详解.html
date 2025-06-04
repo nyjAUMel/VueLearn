@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind 是 Vue 的一个核心指令，用于动态绑定 HTML 元素的属性</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+    v-bind指令详解
+        1. 指令的作用
+        2. v-bind指令的语法格式：
+            <HTML标签 v-bind:参数="表达式"></HTML标签>
+        3. v-bind指令的编译原理：
+            编译前：
+                <HTML标签 v-bind:参数="表达式"></HTML标签>
+            编译后：
+                <HTML标签 参数="表达式执行的结果"></HTML标签>
+            注意事项：
+                第一：在编译的时候v-bind后面的"参数名"会被编译成HTML标签的属性名
+                第二：表达式会关联data，当data发生改变后，表达式的结果就会发生变化。因此产生了动态的效果
+        4. v-bind简写：
+            改指令可以省略，只写一个冒号。
+                <HTML标签 :参数="表达式"></HTML标签>
+    -->
+                
+    <div id="app">
+        <span v-bind:xyz="message"></span>
+
+        <!-- v-bind实战 -->
+         <img v-bind:src="'../img/1.jpeg'" alt=""> <!-- 要是写常量的话得加''，不然会当成data里的属性 -->
+         <br>
+         <img v-bind:src="imgPath" alt="">
+         <!-- 简写 -->
+         <input type="text" name="username" :value="username">
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                message: "Hello Vue.js",
+                imgPath: "../img/1.jpeg",
+                username: "zhangsan"
+            }
+        })
+    </script>
+</body>
+</html>

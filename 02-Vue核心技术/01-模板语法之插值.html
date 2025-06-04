@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>模板语法之插值{{}}</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <!-- 
+        主要研究：{{}}}里面可以写什么
+        1. data里面的数据
+        2. 常量(非数字必须要写在引号里，否则会当成key)
+        3. javascript表达式
+        4. 模板语句都被放在沙盒中，只能访问全局变量的一个白名单，如Math和Date等。
+            即：
+                'Infinity,undefined,NaN,isFinite,isNaN,' +
+                'parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,' +
+                'Math,Number,Date,Array,Object,Boolean,String,RegExp,Map,Set,JSON,Intl,' +
+                'require'
+    
+    
+    -->
+    <div id="app">
+        <!-- 既然str是个字符串，所以就能使用响应的方法 -->
+      <h2>{{str.split('').reverse().join('')}}</h2>
+      <h2>{{ message }}</h2>
+      <h2>{{ sayHello() }}</h2>
+      <!-- 常量 -->
+      <h2>{{ '常量' }}</h2>
+      <h2>{{ 3.14 }}</h2>
+      <!-- js表达式 -->
+      <h2>{{ 2+3 }}</h2>
+      <h2>{{ 2+'丁真'}}</h2>
+      <h2>{{ 1==1? '对':'错'}}</h2>
+      <h2>{{ gender? '男':'女'}}</h2>
+
+      <!-- 语句和if表达式是不会生效的(if可以用三目运算符替换) -->
+       <!-- <h2>{{var a = 1}}</h2> -->
+
+       <!-- 沙盒中的全局变量 -->
+        <h2>{{Math}}</h2>
+        <h2>{{Date}}</h2>
+    </div>
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data: {
+          gender: true,
+          message: "Hello Vue!",
+          sayHello: () => {
+            console.log("Hello");
+          },
+          // 字符串
+          str: "Hello",
+        },
+      });
+    </script>
+  </body>
+</html>

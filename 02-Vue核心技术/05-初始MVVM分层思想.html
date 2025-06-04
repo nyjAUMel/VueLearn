@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+    MVVM（Model-View-ViewModel）是一种常见的前端架构模式，主要用于分离应用程序的用户界面（UI）和业务逻辑。以下是对 MVVM 分层思想的详细解释：
+        Model（模型）
+            负责管理应用的数据和业务逻辑，包括数据的获取、存储、更新，以及核心业务规则的处理。
+        View（视图）
+            负责展示用户界面（UI），如 HTML 模板等，处理用户的交互和数据的展示。
+        ViewModel（视图模型）
+            作为 View 和 Model 之间的桥梁，负责将 Model 的数据转换为适合 View 展示的格式，同时响应用户操作并更新 Model。
+
+    1. Vue没有完全遵循MVVM模式，但也受到了它的启发
+    -->
+
+
+    <!-- 这个就是View -->
+    <div id="app"></div>
+    <script>
+        // 这个就是ViewModel
+        new Vue({
+            el: '#app',
+            data: {
+                // 这个就是Model
+                message: "Hello, MVVM!"
+            },
+        })
+        
+        
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            message: "Hello, MVVM!"
+        },
+    })
+    
+    
+    </script>
+</body>
+</html>
