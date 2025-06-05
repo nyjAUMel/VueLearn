@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    
+    <!-- 
+    1. Vue实例不会以_或$开头的属性进行代理
+    2. 为什么？
+        如果允许以_或$开头的属性进行代理的话。
+        自定义的属性名可能会和Vue内置的属性名冲突。(因为Vue内部很多以_或$开头的属性)
+    -->
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        template: `<div>{{name}}</div>`,
+        data: {
+          name: "张三",
+        },
+      });
+    </script>
+  </body>
+</html>

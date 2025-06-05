@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Object的defineProperty</title>
+  </head>
+  <body>
+    <!-- 
+    Object.defineProperty()
+        1. ES5新增的
+        2. 作用：
+            给对象新增或修改属性，并可以精细控制这个属性的行为
+        3. 用法
+            Object.defineProperty(obj, prop, {descriptor})
+                obj：要添加或修改属性的对象
+                prop：要添加或修改的属性名
+                descriptor：属性描述符对象，包含属性的特性（如可写性、可枚举性、可配置性等）
+                    value：属性的值
+                    writable：属性是否可写(设置该属性的值是否可以被修改(默认为false))
+                    getter: 当访问该属性时自动调用的函数
+                    setter: 当设置该属性时自动调用的函数
+                注意：
+                    1. 如果用 value，就只能配合 writable、enumerable、configurable。
+                    2. 如果用 get/set，就不能写 value 和 writable。
+    -->
+    <script>
+      let phone = {};
+      Object.defineProperty(phone, "color", {
+        // value: "远峰蓝",
+        // writable: true,
+        // getter方法配置项
+        get: function () {
+          console.log("获取属性值");
+
+          // return this.color 这里获取会导致死循环，因为只要获取就会调用getter';
+          return this.newValue;
+        },
+        // setter方法配置项
+        set: function (newValue) {
+          console.log("设置属性值为：" + newValue);
+          // this.color = newValue; 这里设置会导致死循环，因为只要设置就会调用setter
+          this.newValue = newValue;
+        },
+      });
+    </script>
+
+    <!-- 
+      为啥要用Object.defineProperty给对象添加属性？我不能自己给对象添加吗？
+        你当然可以直接给对象添加属性，比如 obj.name = "张三"。
+          但用 Object.defineProperty 可以精细控制属性的行为，比如：
+            能不能被修改（writable）
+            能不能被遍历（enumerable）
+            能不能被删除或重新定义（configurable）
+            能不能自定义 getter/setter，实现数据代理、拦截、校验等功能
+              比如你想实现“访问 proxy.name 实际操作的是 target.name”，就必须用 Object.defineProperty 的 getter/setter，普通赋值做不到这种代理和拦截。
+
+    -->
+  </body>
+</html>
