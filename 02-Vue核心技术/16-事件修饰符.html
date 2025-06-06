@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>事件修饰符</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <!-- 
+    在事件处理程序中调用 event.preventDefault() 或 event.stopPropagation() 是非常常见的需求。尽管我们可以在方法中轻松实现这点，但更好的方式是：方法只有纯粹的数据逻辑，而不是去处理 DOM 事件细节。
+        为了解决这个问题，Vue.js 为 v-on 提供了事件修饰符。之前提过，修饰符是由点开头的指令后缀来表示的。
+            .stop 等同于 event.stopPropagation()
+            .prevent 等同于 event.preventDefault()
+            .capture 事件捕获
+                从内到外是冒泡
+                从外到内就是捕获
+            .self:
+                只有事件的目标元素是当前绑定元素本身时，才会触发事件处理函数。如果你点击的是子元素，事件不会触发绑定在父元素上的 .self 监听器。但会发生在父元素的父元素上.
+                    用于:防止子元素冒泡触发父元素的事件。
+            .once:
+                只触发一次
+            .passive:
+                告诉浏览器这个事件监听器不会调用 event.preventDefault()，这样浏览器可以提前优化（比如更流畅地滚动页面）。
+                .passive 修饰符下，不能在事件处理函数里写 event.preventDefault()，否则会无效并且浏览器会警告。
+    
+    -->
+    <div id="app">
+      <h1>{{message}}</h1>
+      <!-- @click.prevent 阻止默认行为 -->
+      <a href="https://www.baidu.com" @click.prevent="sayHello">百度</a>
+
+      <!-- @click.propagation  阻止事件冒泡 -->
+      <div>
+        <div v-on:click="preventPropagation">
+          <button @click.stop="preventPropagation">事件冒泡</button>
+        </div>
+      </div>
+
+      <!-- capture 事件捕获 -->
+      <div v-on:click.capture="san">
+        <div v-on:click.capture="er">
+          <button v-on:click.capture="yi">让事件监听器在捕获阶段触发</button>
+        </div>
+      </div>
+
+      <!-- .self修饰符 -->
+      <div v-on:click="san">
+        <div v-on:click.self="er">
+          <button v-on:click="yi">self修饰符</button>
+        </div>
+      </div>
+
+      <!-- .once修饰符 -->
+      <button v-on:click.once="yi">.once修饰符</button><br />
+
+      <!-- .passive修饰符 -->
+      <a href="https://www.baidu.com" @:click.passive="sayHello"
+        >无阻止跳转百度</a
+      >
+
+      <!-- 
+        修饰符可以串联
+        .self.stop 先执行self修饰符，再执行stop修饰符
+        .stop.self  先执行stop修饰符，再执行self修饰符
+        -->
+      <div v-on:click="san">
+        <div v-on:click="er">
+          <button v-on:click.self.stop="yi">self.stop修饰符</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          message: "事件修饰符",
+        },
+        methods: {
+          sayHello(e) {
+            // e.preventDefault(); // 阻止默认行为
+            console.log(this.message);
+          },
+          preventPropagation(e) {
+            /* 
+            e.target 永远是“最初被点击的元素”。
+            不管事件冒泡到哪一层，e.target 都不会变。
+            */
+            console.log(e.target);
+            alert("执行方法");
+          },
+          san() {
+            alert(3);
+          },
+          er() {
+            alert(2);
+          },
+          yi() {
+            alert(1);
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

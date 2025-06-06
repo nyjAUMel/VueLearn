@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- 引入Vue -->
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <!-- 
+    v-on 是 Vue.js 中用于绑定事件监听器的指令。它允许你在 Vue 实例中监听 DOM 事件，并在触发时执行指定的 JavaScript 代码或方法。
+        基本语法：
+            <button v-on:事件名="处理函数">按钮</button>
+                "处理函数位置":能写的是{{}}里写的东西
+        简写形式 
+            <button @事件名="处理函数">按钮</button>
+
+    在Vue当中，所有事件所关联的回调函数，需要在Vue实例的配置项methods中定义
+
+
+    关于事件对象event的问题：
+        原生JS事件回调，event 永远是第一个参数，后面写的参数不会有值。
+            例如：btn.onclick = function(event, a, b) {
+                  // event 是事件对象，a 和 b 都是 undefined
+                }
+        Vue中：
+            如果什么参数都没传，那么function()参数中就有个event对象
+            如果传了参数，那么event就会失效。所以需要调用时使用$event显示传入
+                例如：<button @click="myFunc(123, 'abc', $event)">点我</button>
+    -->
+    <div id="app">
+      <h1>{{msg}}</h1>
+      <!-- 用原生JS实现事件绑定 -->
+      <button>原生JS实现事件绑定</button>
+      <!-- 使用Vue实现事件绑定 -->
+      <button v-on:click="alertMsg">Vue实现事件绑定</button>
+      <!--如果不传任何值，()可以省略-->
+      <button @click="sayHello">说你好</button>
+    </div>
+    <script>
+      // 这个函数是用不了的，因为没有被Vue管理
+      function alertMsg() {
+        alert(this.msg);
+      }
+
+      
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          msg: "Hello 丁真",
+        },
+        methods: {
+          alertMsg() {
+            alert(this.msg);
+          },
+          sayHello: function (event) {
+            console.log(event);
+          },
+        },
+      });
+
+      // 原生JS实现事件绑定
+      const btn = window.document.querySelector("button");
+      btn.addEventListener("click", function () {
+        alert("Hello Vue");
+      });
+    </script>
+  </body>
+</html>

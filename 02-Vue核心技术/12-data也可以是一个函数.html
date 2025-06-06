@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- 引入Vue -->
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{name}}</h1>
+    </div>
+    <script>
+      new Vue({
+        el: "#app",
+        /* data: {
+              name: '张三',
+          } */
+
+        // data 也可以是一个函数，但是必须用return返回一个对象
+        //  data:function(){
+        data() {
+          return {
+            name: "丁真",
+          };
+        },
+      });
+    </script>
+  </body>
+</html>

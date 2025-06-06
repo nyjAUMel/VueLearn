@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        Vue 提供了绝大多数常用的按键码的别名：
+            .enter
+            .tab
+            .delete (捕获“删除”和“退格”键)
+            .esc
+            .space
+            .up
+            .down
+            .left
+            .right
+        
+        可以通过event.key来获取该键的真实名字
+
+        系统修饰键:4个比较特殊的键
+            ctrl. alt. shift. meta
+            对于keydown事件来说:只要按下ctrl键,keydown事件就会触发。
+            对于keyup事件来说:需要按下ctrl键,并且加上按下组合键,然后松开组合键之后,keyup事件才能触发。
+
+
+    -->
+    <div id="app">
+        <h1>{{msg}}</h1>
+        回车键<input type="text" v-on:keydown.enter="getInfo">
+        tab键<input type="text" @keydown.prevent.tab="getInfo">
+        delete/backspace键<input type="text" @keydown.delete="getInfo">
+        esc键<input type="text" @keydown.esc="getInfo">
+        space键<input type="text" @keydown.space="getInfo">
+        方向上键和下键<input type="text" @keydown.up.down="getInfo">
+
+        <!-- Vue可以通过Vue.config.keyCodes来自定义按键 -->
+        自定义回车键:<input type="text" v-on:keydown.huiche="getInfo">
+
+        ctrl键(keydown)<input type="text" v-on:keydown.ctrl="getInfo">
+        ctrl键(keyup)<input type="text" v-on:keyup.ctrl="getInfo">
+
+        <!-- 实现只有ctrl + i 才能触发事件 -->
+         ctrl键(keyup)<input type="text" v-on:keyup.ctrl.i="getInfo">
+    </div>
+
+    <script>
+        // 自定义按键
+        Vue.config.keyCodes = {
+            huiche: 13
+        }
+
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '按键修饰符'
+            },
+            methods: {
+                getInfo(event) {
+                    // 当用户键入enter键时获取输入框的值
+                    /* if (event.keyCode === 13) {
+                        console.log(event.target.value)
+                    } */
+                   
+                    // 添加了按键修饰符.enter就不用判断了
+                    console.log(event.target.value)
+                }
+            }
+        })
+
+    </script>
+</body>
+</html>

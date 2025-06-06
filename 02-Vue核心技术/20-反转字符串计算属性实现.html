@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <!-- 
+    在 Vue 中，计算属性（Computed Properties） 是一种基于依赖自动缓存和更新的属性机制。
+
+    计算属性“走缓存”意思是：只要它依赖的数据没变，计算属性的 getter 不会重复执行，而是直接用上一次计算好的结果。
+
+    计算属性:
+        1. 什么是计算属性?
+            使用Vue的原有属性,经过一系列的运算/计算,最终得到了一个全新的属性,叫做计算属性。
+                Vue的原有属性:data对象当中的属性可以叫做Vue的原有属性。
+                全新的属性:表示生成了一个新的属性,和data中的属性无关了,新的属性也有自己的属性名和属性值。
+        2. 计算属性怎么用?
+            语法格式:需要一个新的配置项 computed
+                computed : {
+                    // 这是一个计算属性
+                    计算属性1:{
+                        //setter 和 getter方法。
+                        //当读取计算属性1的值的时候,getter方法被自动调用。
+                        get(){
+
+                        },
+                        // 当修改计算属性1的值的时候,setter方法被自动调用。
+                        set(val){
+
+                        },
+                    // 这是另一个计算属性
+                    计算属性2:{},
+                    }
+        3. 计算属性的作用?
+        代码得到了复用。
+        代码更加便于维护了。
+        代码的执行效率高了。
+    
+    
+    -->
+    <div id="app">
+      输出的字符串:<input type="text" v-model:value="msg" /><br />
+      反转的字符串: {{reversedInfo}} <br />
+      反转的字符串: {{reversedInfo}} <br />
+      反转的字符串: {{reversedInfo}} <br />
+      反转的字符串: {{reversedInfo}} <br />
+      反转的字符串: {{reversedInfo}} <br />
+      反转的字符串(简写形式): {{reversedInfo2}} <br />
+      <!-- 
+      双向绑定修改msg的值后为什么methods里的方法又会执行呢?
+        因为每当与该模板(“该模板”指的是你在 Vue 组件（或页面）中写的 HTML 模板部分，也就是 <div id="app">...</div> 里面用 {{cxk()}}、{{dj}} 这些插值表达式的地方。)相关的数据发生变化（比如你通过 v-model 修改了 msg），Vue 会重新渲染模板，这时所有在模板里的方法（如 cxk()）都会重新执行一次。
+      
+      -->
+      <hr />
+      methods:是没有缓存机制的,所以会一直调用该方法:{{cxk()}}{{cxk()}}{{cxk()}}
+      computed:是有缓存机制的,所以不会一直调用get:{{dj}}{{dj}}{{dj}}
+    </div>
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          msg: "丁真",
+        },
+        methods: {
+          cxk() {
+            console.log("cxk()方法被调用了");
+            return "蔡徐坤";
+          },
+        },
+        computed: {
+          // 可以定义多个计算属性
+          /* 
+          这些属性没有挂到data上
+           通过vm.msg可以访问到代理属性,通过vm.$data.msg或者vm._data.msg都可以访问到原始属性.
+           但是通过vm.$data.msg或者vm._data.msg访问不到代理属性.
+          
+          */
+          dj: {
+            /* 
+            get方法的调用时机有两个:
+                1. 第一次访问这个属性时
+                2. 该计算属性所关联的Vue原有属性的值发生变化时,getter方法会被调用
+            */
+            get() {
+              console.log("get调用了");
+              return this.msg;
+            },
+            set(newValue) {
+              console.log("set");
+              console.log(this == vm);
+            },
+            // 最好不要使用 箭头函数, 因为this的指向是window
+          },
+          //实现反转字符串
+          reversedInfo: {
+            get() {
+              console.log("reversedInfo的get方法调用了");
+              return this.msg.split("").reverse().join("");
+            },
+            set(val) {
+              console.log("reversedInfo的set方法调用了");
+              this.msg = val;
+            },
+          },
+          /*
+          计算属性简写形式
+            前提要求:没有setter方法
+          */
+          reversedInfo2() {
+            console.log("reversedInfo2的get方法调用了");
+            return this.msg.split("").reverse().join("");
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

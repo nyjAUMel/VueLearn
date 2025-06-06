@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>关于事件回调函数中的this</title>
+    <!-- 引入Vue -->
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{msg}}</h1>
+      <h1>计数器：{{count}}</h1>
+      <button @click="addCount">点击加一</button>
+      <button @click="addCountArrow">点击加一(箭头函数)</button>
+      <button @click="equalsObject">vm是等于this的</button>
+    </div>
+
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          msg: "关于事件回调函数中的this",
+          count: 0,
+        },
+        methods: {
+            addCount() {
+                this.count++;
+            },
+            addCountArrow:() => {
+                // 箭头函数继承了父级作用域的 this，所以 this 指向的是 window。
+                // 所以在methods里不建议使用箭头函数
+                console.log(this)
+            },
+            equalsObject(){
+                // Vue 在实例化时，会自动把 methods 里的函数的 this 绑定为当前 Vue 实例（也就是 vm）。所以在 methods 里的函数中，this 永远指向 vm，this === vm 输出 true。
+                console.log(this) // vm
+                console.log(this === vm); // true
+            }
+        },
+      });
+    </script>
+  </body>
+</html>
