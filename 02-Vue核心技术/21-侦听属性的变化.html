@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>侦听/监视 属性的变化</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <!-- 
+    在 Vue 中，监听属性的变化通常用 watch 选项。
+        watch 可以“侦听”data中的某个属性或“计算属性”，一旦这个属性发生变化，就会自动执行你定义的回调函数。
+    
+    
+    -->
+    <div id="app">
+      <h1>{{msg}}</h1>
+      数字：<input type="text" v-model="number" /><br />
+      计算属性：{{dj}} <br />
+      数字：<input type="text" v-model="a.b" /><br />
+      数字(深度)：<input type="text" v-model="x.y.z" /><br />
+      后期添加监视：<input type="text" v-model="number2" /><br />
+      监视的简写形式：<input type="text" v-model="shorthand" /><br />
+      后期添加监视属性的简写形式：<input type="text" v-model="number3" /><br />
+    </div>
+
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          msg: "侦听属性的变化",
+          number: 0,
+          name: "丁真",
+          a: {
+            b: 0,
+            c: 0,
+          },
+          // 深层结构(用来测试深度监听)
+          x: {
+            y: {
+              z: 0,
+            },
+          },
+          // 测试后期监视属性
+          number2: 0,
+          // 测试监视的简写形式
+          shorthand: 7,
+          // 测试 后期添加监视属性的简写形式
+          number3:0
+        },
+        computed: {
+          dj: {
+            get() {
+              console.log("计算属性的get方法执行");
+              return this.name + "!!!";
+            },
+            set(newVal) {
+              console.log("计算属性的set方法执行");
+              this.name = newVal;
+            },
+          },
+        },
+        watch: {
+          // 可以监听多个属性
+          // 监听哪个属性就把哪个属性名写到这
+          number: {
+            // handler在被监视的属性发生变化时自动执行
+            handler(newVal, oldVal) {
+              // 这里写当 number 变化时要执行的代码
+              console.log("新值:", newVal, "旧值:", oldVal);
+            },
+            immediate: true, // 是否在初始化时立即执行一次（可选）
+            deep: false, // 是否深度监听（可选，监听对象/数组时用）
+          },
+          // 监听计算属性的值
+          dj: {
+            handler(newVal, oldVal) {
+              console.log("新值:", newVal, "旧值:", oldVal);
+              // 指向Vue实例
+              console.log(this);
+            },
+          },
+          // 多级结构监听
+          "a.b": {
+            // 如果监视的属性具有多级结构就要加单引号
+            handler(newVal, oldVal) {
+              console.log("新值:", newVal, "旧值:", oldVal);
+            },
+          },
+          // 采用深度监听多级结构
+          x: {
+            // 启用深度监听
+            deep: true,
+            handler(newVal, oldVal) {
+              //  Vue2 的 watch 深度监听下，无法直接拿到变化前的“快照”，只能自己手动保存一份旧值。（这里无法获取旧值）
+              console.log("新值:", newVal.y.z, "旧值:", oldVal.y.z);
+            },
+          },
+          // 当只有一个handler()函数时可以简写为：
+          shorthand(newVal, oldVal) {
+            console.log("新值:", newVal, "旧值:", oldVal);
+          },
+        },
+      });
+
+      /*
+        如何后期添加监视？
+          只需要调用Vue相关的API即可
+          语法：vm.$watch('被监听的属性名',{})
+      */
+      vm.$watch("number2", {
+        immediate: true, 
+        deep: true,
+        handler(newVal, oldVal) {
+          console.log("新值:", newVal, "旧值:", oldVal);
+        },
+      });
+
+      // 后期添加监视属性的简写形式
+      vm.$watch("number3", function(newVal,oldVal) {
+console.log("新值:", newVal, "旧值:", oldVal);
+      });
+    </script>
+  </body>
+</html>
