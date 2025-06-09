@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Style</title>
+    <script src="../js/vue.js"></script>
+    <style>
+      .static {
+        border: 1px static black;
+        width: 100px;
+        height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{msg}}</h1>
+      <div class="static" style="background-color: aqua">{{msg}}</div>
+      <br /><br />
+      <!-- 动态写法：字符串形式 -->
+      <div class="static" :style="strStyle">{{msg}}</div>
+      <br /><br />
+      <!-- 动态写法：对象形式(有-要变成大驼峰)-->
+      <div class="static" :style="{backgroundColor: 'green'}">{{msg}}</div>
+      <div class="static" :style="objStyle">{{msg}}</div>
+      <br /><br />
+      <!-- 动态写法：数组形式 -->
+      <div class="static" :style="arrayStyle">{{msg}}</div>
+    </div>
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          msg: "绑定Style",
+          strStyle: "background-color: skyblue",
+          objStyle: {
+            backgroundColor: "purple",
+          },
+          arrayStyle: [{ backgroundColor: "orange" }, {fontSize: '33px'}],
+        },
+      });
+    </script>
+  </body>
+</html>

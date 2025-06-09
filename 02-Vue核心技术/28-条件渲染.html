@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- 
+        v-if指令的值：
+            true:表示该元素的值会被渲染到页面上
+            false:表示该元素不会被渲染到页面上(不是设置样式使其隐藏，而是压根不会渲染)
+        -->
+      <h2 v-if="num1 < num2">{{msg}}</h2>
+
+      <div v-if="2 === 1">{{msg}}</div>
+
+      <button @click="++counter">点我加1</button>
+      <h3>{{counter}}</h3>
+
+      <!-- <img src="../img/1.JPEG" alt="" v-if="counter % 2 == 0">
+      <img src="../img/2.JPEG" alt="" v-if="counter % 2 != 0"> -->
+
+      <!-- 或者 -->
+      <!--  <img v-bind:src="imgPath1" alt="" v-if="counter % 2 == 0">
+      <img v-bind:src="imgPath2" alt="" v-if="counter % 2 != 0"> -->
+
+      <!-- 
+      为了提高效率，可以使用v-else指令
+        v-if和v-else之间不能断开(中间不要有别的标签)
+       -->
+      <img :src="imgPath1" alt="" v-if="counter % 2 == 0" />
+      <img :src="imgPath2" v-else />
+
+      <hr />
+      温度：<input type="number" v-model="temperature" /> <br />
+      <!-- 天气：<span v-if="temperature <= 10">寒冷</span>
+      <span v-if="temperature > 10 && temperature <= 25">凉爽</span>
+      <span v-if="temperature > 25">炎热</span> -->
+
+      <!-- 用v-else-if(中间同样不能断开) -->
+       天气：<span v-if="temperature <= 10">寒冷</span>
+      <span v-else-if="temperature <= 25">凉爽</span>
+      <span v-else="temperature > 25">炎热</span>
+    </div>
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          msg: "条件渲染",
+          num1: 3,
+          num2: 5,
+          counter: 1,
+          imgPath1: "../img/1.JPEG",
+          imgPath2: "../img/2.JPEG",
+          temperature: 0,
+        },
+      });
+    </script>
+  </body>
+</html>

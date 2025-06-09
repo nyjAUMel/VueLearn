@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+    <style>
+      .static {
+        border: 1px solid black;
+        width: 100px;
+        height: 100px;
+      }
+      .active {
+        background-color: green;
+      }
+      .text-danger {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h2>{{msg}}</h2>
+      <!-- 静态写法 -->
+      <div class="static active text-danger">{{msg}}</div>
+      <br /><br />
+      <!-- 动态写法：动静都有 -->
+      <!-- 对象形式的使用场景：样式的个数是固定的，也是的名字也是固定的，但是需要动态的决定样式是否有要用 -->
+      <div class="static" v-bind:class="classObj">{{msg}}</div>
+      <br /><br />
+    </div>
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          msg: "Class绑定之对象形式",
+          // 该对象中属性的名字必须和样式名一致
+          classObj: {
+            // true 表示用，反之则表示不用
+            active: false,
+            "text-danger": true,
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

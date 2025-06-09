@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <!-- 
+      1. computed和watch如果能够完成某个功能，优先选择computed
+      2. 有一种情况下必须使用watch，因为computed无法完成。
+            如果在程序中采用了异步的方式，只能用watch(computed依赖get方法，而watch不以来get方法)
+            
+            普通函数：在 setTimeout 里，普通函数的 this 默认指向 window（非严格模式下），不是你定义它的对象。
+            箭头函数：箭头函数没有自己的 this，它会继承外层作用域的 this（比如你在对象方法里用箭头函数，this 就是那个对象）。
+    
+    -->
+    <div id="app">
+      数值1：<input type="number" v-model="num1" /> <br />
+      数值2：<input type="number" v-model="num2" /> <br />
+      比较大小：{{compareResult}}
+    </div>
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          num1: 0,
+          num2: 0,
+        },
+        computed: {
+          compareResult() {
+            if (this.num1 == this.num2) {
+              return this.num1 + "=" + this.num2;
+            } else if (this.num1 > this.num2) {
+              return this.num1 + ">" + this.num2;
+            } else if (this.num1 < this.num2) {
+              return this.num1 + "<" + this.num2;
+            }
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
