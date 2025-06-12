@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <!-- 
+    问题：
+        如果后端传来一个字段，该字段的值可能是：''、undefiend、null、0.5。怎么能在值是：''、undefiend、null时显示 -，如果不是这些值就显示其数据本身呢。
+    -->
+    <div id="app">
+      <h1>{{msg}}</h1>
+      <h1>{{formatPrice}}</h1>
+      <!-- 
+      语法：原参数 管道符 过滤器
+        过程：将原参数传给过滤器最后显示过滤器返回的值
+
+      注！！！！！：
+                    1. Vue3中已将过滤器废弃
+      -->
+      <h1>用过滤器实现：{{price | filterA}}</h1>
+      <!-- 过滤器可以写参数(第二个参数就是上一个过滤器或变量的值，所以省略，第二个才是我们需要的) -->
+      <h1>可以写多个过滤器：{{price | filterA | filterB(5)}}</h1>
+
+      <!-- 过滤器只能用在插值表达式和v-bind指令这两个地方，别的都不能。 -->
+      <input type="text" :value="price | filterA" />
+
+      <!-- 全局过滤器 -->
+      <h1>全局过滤器：{{price | filterC}}</h1>
+    </div>
+
+    <script>
+      /* 
+        配置全局过滤器
+
+        全局过滤器必须在 Vue 实例（new Vue）之前注册。
+        原因：
+            Vue 在创建实例时，会把已经注册的全局过滤器“收集”起来，挂载到实例和模板渲染的上下文中。
+            如果你在 new Vue 之后才注册全局过滤器，当前实例已经初始化完毕，模板渲染时找不到新注册的过滤器，所以不会生效。
+    */
+      Vue.filter("filterC", function (val) {
+        if (val === undefined || val === null || val === "") return "-";
+        return val + "元";
+      });
+
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          msg: "过滤器",
+          // 当 price 是 null 或 undefined 时，如果直接在模板中使用 {{ price }}，页面上将不会显示任何内容（即显示为空）。
+          price: 66.123456789,
+        },
+        computed: {
+          formatPrice() {
+            if (
+              this.price === undefined ||
+              this.price === null ||
+              this.price === ""
+            )
+              return "-";
+            return this.price;
+          },
+        },
+        // 这都是局部过滤器，只用在当前实例绑定的标签当中
+        filters: {
+          filterA(val) {
+            // 这里this是指向window
+
+            if (val === undefined || val === null || val === "") return "-";
+            return val;
+          },
+          filterB(val, number) {
+            // toFixed()将一个数字转换为保留 number 位小数的字符串形式。(四舍五入)
+            return val.toFixed(number);
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

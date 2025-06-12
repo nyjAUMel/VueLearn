@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>列表渲染</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{msg}}</h1>
+
+      <!-- 
+        v-for 是 Vue 中用于列表渲染的指令，可以让你根据数组或对象动态生成一组元素。
+          注：v-for要写在循环项上
+          语法：
+            1. <li v-for="item in items">{{ item }}</li>
+            2. <li v-for="item of items">{{ item }}</li>
+              其中: items 是你要遍历的数组，item 是每次循环的当前元素
+         -->
+      <ul>
+        <li v-for="name of names">{{name}}</li>
+      </ul>
+      <!--
+        常用写法：
+                        参数位置是固定的
+            <li v-for="(item, index) in items" :key="index">
+                {{ index }} - {{ item }}
+            </li>
+      -->
+      <ul>
+        <li v-for="(name, index) in names">{{ index }} - {{ name }}</li>
+      </ul>
+
+      <!-- 遍历对象数组 -->
+      <ul>
+        <li v-for="(item, index) in gentlemen">
+          姓名是：{{item.name}}，年龄是：{{item.age}}
+        </li>
+      </ul>
+
+      <!-- 遍历到表格里 -->
+      <table>
+        <tr>
+          <th>次序</th>
+          <th>姓名</th>
+          <th>年龄</th>
+          <th>选择</th>
+        </tr>
+        <tr v-for="(item, index) in gentlemen">
+          <td>{{index + 1}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.age}}</td>
+          <td><input type="radio" value="" name="v1" /></td>
+        </tr>
+      </table>
+
+      <hr />
+      <hr />
+      <hr />
+      <!-- 除了遍历数组还可以遍历对象、字符串和指定次数 -->
+      <h1>遍历对象的属性</h1>
+      <ul>
+        <li>第一个参数是属性名 -> 第二个参数是属性值</li>
+        <li v-for="(propertyVal, propertyName) in user">
+          {{propertyName}} -> {{propertyVal}}
+        </li>
+      </ul>
+
+      <h1>遍历字符串</h1>
+      <ul>
+        <li>第一个参数是字符 -> 第二个参数是下标</li>
+        <li v-for="(val,index) of str">{{val}} -> {{index}}</li>
+      </ul>
+
+      <h1>遍历指定的次数</h1>
+      <ul>
+        <li>第一个参数是次数 -> 第二个参数是下标</li>
+        <li v-for="(num, index) in counter">{{num}} -> {{index}}</li>
+      </ul>
+    </div>
+
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          msg: "列表渲染",
+          names: ["宋亚轩", "刘耀文", "马嘉祺", "丁程鑫"],
+          gentlemen: [
+            { name: "王源", age: 20 },
+            { name: "丁真", age: 23 },
+            { name: "王旭朝", age: 26 },
+          ],
+          user: {
+            id: "1",
+            name: "蔡徐坤",
+            age: 26,
+          },
+          str: "人杰地灵",
+          counter: 10,
+        },
+      });
+    </script>
+  </body>
+</html>

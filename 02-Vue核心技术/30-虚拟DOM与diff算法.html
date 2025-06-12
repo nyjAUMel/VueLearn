@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <table>
+        <tr>
+          <th>序号</th>
+          <th>姓名</th>
+          <th>年龄</th>
+          <th>能力</th>
+          <th>选择</th>
+        </tr>
+        <!-- 
+            v-for指令所在的标签中，还有一个重要的属性
+                :key
+            如果没有指定 :key属性，会自动拿index作为key
+            这个key是DOM元素中唯一的标识
+
+            分析问题：采用index作为key存在什么问题？
+                第一个问题：效率低
+                第二个问题：非常严重，产生了错乱。尤其是对数组当中的某些元素进行操作（非末尾元素）。
+        
+        -->
+        <tr v-for="item in maleCelebrity" :key="item.id">
+          <td>{{item.id}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.age}}</td>
+          <td>{{item.power}}</td>
+          <td><input type="radio" name="star" /></td>
+        </tr>
+      </table>
+    </div>
+
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          maleCelebrity: [
+            { id: 1, name: "马嘉祺", age: 20, power: "领导力" },
+            { id: 2, name: "丁程鑫", age: 21, power: "速度" },
+            { id: 3, name: "宋亚轩", age: 22, power: "智慧" },
+            { id: 4, name: "刘耀文", age: 23, power: "力量" },
+            { id: 5, name: "张真源", age: 24, power: "耐力" },
+            { id: 6, name: "严浩翔", age: 25, power: "飞行" },
+            { id: 7, name: "贺峻霖", age: 26, power: "隐身" },
+          ],
+        },
+      });
+    </script>
+  </body>
+</html>

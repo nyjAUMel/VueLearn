@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 
+    v-cloak 是 Vue 提供的一个特殊指令，用来解决“胡子语法闪现”（{{msg}} 还没被 Vue 渲染时直接显示在页面上）的现象。
+
+    用法：
+        在需要防止闪现的元素上加上 v-cloak 属性。
+        配合 CSS，把带 v-cloak 的元素先隐藏，等 Vue 渲染完毕后自动移除 v-cloak，内容才显示出来。
+    
+    -->
+    <!-- 
+    当vue文件加载慢时，页面可能显示{{msg}}。不友好 
+    -->
+    <div id="app">
+      <h1 v-cloak>{{msg}}</h1>
+    </div>
+
+    <script>
+      // 模拟延迟加载 <script src="../js/vue.js">
+      setTimeout(() => {
+        const scriptEle = document.createElement("script");
+        scriptEle.src = "../js/vue.js";
+        document.head.append(scriptEle);
+      }, 3000);
+
+      setTimeout(() => {
+        const vm = new Vue({
+          el: "#app",
+          data: {
+            msg: "Vue其它的指令",
+          },
+        });
+      }, 4000);
+    </script>
+  </body>
+</html>

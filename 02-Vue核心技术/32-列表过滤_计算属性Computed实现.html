@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <input type="text" placeholder="请输入要搜索的名字" v-model="searchVal" />
+      <table>
+        <tr>
+          <th>序号</th>
+          <th>姓名</th>
+          <th>年龄</th>
+          <th>能力</th>
+          <th>选择</th>
+        </tr>
+        <tr v-for="item in newMaleCelebrity" :key="item.id">
+          <td>{{item.id}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.age}}</td>
+          <td>{{item.power}}</td>
+          <td><input type="radio" name="star" /></td>
+        </tr>
+      </table>
+    </div>
+
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          maleCelebrity: [
+            { id: 1, name: "马嘉祺", age: 20, power: "领导力" },
+            { id: 2, name: "丁程鑫", age: 27, power: "速度" },
+            { id: 3, name: "宋亚轩", age: 22, power: "智慧" },
+            { id: 4, name: "刘耀文", age: 20, power: "力量" },
+            { id: 5, name: "张真源", age: 24, power: "耐力" },
+            { id: 6, name: "严浩翔", age: 33, power: "飞行" },
+            { id: 7, name: "贺峻霖", age: 26, power: "隐身" },
+          ],
+          searchVal: "",
+        },
+        computed: {
+          newMaleCelebrity() {
+            return this.maleCelebrity.filter((man) => {
+              return man.name.includes(this.searchVal);
+            });
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

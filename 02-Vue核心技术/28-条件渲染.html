@@ -41,9 +41,38 @@
       <span v-if="temperature > 25">炎热</span> -->
 
       <!-- 用v-else-if(中间同样不能断开) -->
-       天气：<span v-if="temperature <= 10">寒冷</span>
+      天气：<span v-if="temperature <= 10">寒冷</span>
       <span v-else-if="temperature <= 25">凉爽</span>
       <span v-else="temperature > 25">炎热</span>
+
+      <h1></h1>
+      <!-- 另一个用于根据条件展示元素的选项是 v-show 指令。用法大致一样：不同的是带有 v-show 的元素始终会被渲染并保留在 DOM 中。v-show 只是简单地切换元素的 CSS property display。 -->
+      <h1 v-show="false">v-show指令</h1>
+
+      <!-- 
+    什么时候用v-if什么时候用v-show？
+      v-if：适合条件切换不频繁的场景。元素会真正地“创建”或“销毁”，初始渲染时不会出现在 DOM 里，性能开销大一些。
+      v-show：适合频繁切换显示/隐藏的场景。元素始终在 DOM 中，只是通过 CSS 的 display 属性控制显示或隐藏，切换速度快，性能开销小。
+    -->
+      <!-- 
+      Vue官方解释：
+
+        v-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。
+        相比之下，v-show 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。
+    
+      -->
+
+      <!-- 
+    <template> 标签在 Vue 中是一个特殊的标签，用于包裹一段模板内容，但它本身不会被渲染到最终的 DOM 中。
+    
+      <template> 标签不会出现在页面上，只是作为 Vue 内部渲染的占位符。
+      里面的内容会被 Vue 解析和渲染，但 <template> 本身不会生成任何 DOM 元素。
+    -->
+      <!-- 用于实现counter=10显示这两个标签，这里用template标签渲染后只会有两个内容h1。但这里如果用div包裹，那么渲染的时候也会有div -->
+      <template v-if="counter == 10">
+        <h1>内容1</h1>
+        <h1>内容2</h1>
+      </template>
     </div>
     <script>
       const vm = new Vue({

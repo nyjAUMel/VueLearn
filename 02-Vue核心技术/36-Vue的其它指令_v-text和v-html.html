@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- 
+        v-text指令：
+            可以将指令的内容填充到标签中，与JS的innerText一样
+            这种填充会覆盖原有的值
+            不会解析HTML代码，会当成普通文本来处理
+        -->
+      <h1>{{msg}}不会覆盖</h1>
+      <h1 v-text="name">会覆盖</h1>
+      <h1 v-text="h1">会覆盖</h1>
+
+      <!-- 
+        v-html指令：
+            同样填充标签，同样覆盖，但会解析HTML代码，与JS中的innerHTML一样
+      -->
+            <h1 v-html="h1">会覆盖</h1>
+    </div>
+
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          msg: "Vue其它的指令",
+          name: "丁真",
+          h1: "<h1>欢迎你</h1>",
+        },
+      });
+    </script>
+  </body>
+</html>

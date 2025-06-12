@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>自定义指令</h1>
+      <div v-text="msg"></div>
+
+      <!-- vue没有这个指令，但可以自定义一个 -->
+      <p v-text-red-color="msg"></p>
+
+      <!-- 
+      需要一个指令，可以和v-bind指令完成相同的功能。同时将该元素的父级元素的背景色设置为蓝色
+      -->
+      <div>
+        用户名(函数式写法，不生效)：<input
+          type="text"
+          v-bind-blue-func="username"
+        />
+      </div>
+      <div>
+        用户名(对象式写法)：<input type="text" v-bind-blue-object="username" />
+      </div>
+    </div>
+
+    <script>
+       // 自定义指令里this指向的都是window
+
+
+      // 定义全局指令
+      // 函数式
+      Vue.$directive("global-func", function (el, binding) {
+        // 要绑定的内容
+      });
+      // 对象式
+      Vue.$directive("global-objection", {
+        bind(el, binding) {},
+        inserted(el, binding) {},
+        update(el, binding) {},
+      });
+
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          msg: "自定义指令",
+          username: "丁真",
+        },
+        // 局部写法
+        directives: {
+          // 指令1
+          // 指令2
+          // ...
+
+          /* 
+          1.关于名字
+            定义时不用写v-。
+            Vue官网建议全部小写，如果是多个单词，用-拼接。
+          2.两个执行时机
+            第一次：标签和指令第一次绑定的时候
+            第二次：模板被重新解析的时候
+          3.函数的两个参数
+            el：当前绑定的 DOM 元素（Element），你可以直接操作它。
+            binding：一个对象，包含与指令相关的信息（如传入的值、修饰符、表达式等）。
+
+              binding 参数是一个对象，里面包含了指令相关的所有信息。常用的属性有：
+                binding.value：传给指令的值（如 v-color="red" 时，value 就是 "red"）
+                binding.oldValue：上一次的值（只在 update 和 componentUpdated 钩子中可用）
+                binding.expression：指令的表达式字符串（如 "red"）
+                binding.arg：传给指令的参数（如 v-my-dir:foo，arg 就是 "foo"）
+                binding.modifiers：修饰符对象（如 v-my-dir.foo.bar，modifiers 就是 { foo: true, bar: true }）
+
+                
+            钩子函数（Hook Function）就是：在某个特定时机，框架或系统会自动帮你调用的函数。
+          */
+
+          // 函数式写法
+          "text-red-color": function (el, binding) {
+
+            el.innerText = binding.value;
+            el.style.color = "red";
+          },
+          "bind-blue-func": function (el, binding) {
+            // 为什么是null？因为在这个函数执行时，虽然指令和元素完成了绑定但仅仅是在内存方面完成了绑定，元素还没插入到页面
+            console.log(el.parentNode);
+            el.value = binding.value;
+          },
+
+          /* 
+          对象写法
+
+          用一个对象，里面可以写多个钩子函数（如 bind、inserted、update、componentUpdated、unbind），适合需要更精细控制的场景。
+          */
+          "bind-blue-object": {
+            /* 
+            指令第一次绑定到元素时调用（只调用一次）。
+            此时元素还没插入到 DOM。
+            */
+            bind(el, binding) {},
+            /*
+            被绑定的元素插入父节点时调用。
+            此时可以安全操作 DOM（如 el.parentNode）。
+             */
+            inserted(el, binding) {
+              el.parentNode.style.backgroundColor = "blue";
+            },
+            /* 
+            当模板重新解析时调用（可能会多次调用）。
+            但子节点还没更新完。
+            */
+            update(el, binding) {},
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

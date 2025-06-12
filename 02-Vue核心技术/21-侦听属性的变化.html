@@ -46,7 +46,7 @@
           // 测试监视的简写形式
           shorthand: 7,
           // 测试 后期添加监视属性的简写形式
-          number3:0
+          number3: 0,
         },
         computed: {
           dj: {
@@ -109,7 +109,7 @@
           语法：vm.$watch('被监听的属性名',{})
       */
       vm.$watch("number2", {
-        immediate: true, 
+        immediate: true,
         deep: true,
         handler(newVal, oldVal) {
           console.log("新值:", newVal, "旧值:", oldVal);
@@ -117,8 +117,8 @@
       });
 
       // 后期添加监视属性的简写形式
-      vm.$watch("number3", function(newVal,oldVal) {
-console.log("新值:", newVal, "旧值:", oldVal);
+      vm.$watch("number3", function (newVal, oldVal) {
+        console.log("新值:", newVal, "旧值:", oldVal);
       });
     </script>
   </body>

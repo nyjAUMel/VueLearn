@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1 v-cloak>{{msg}}</h1>
+      <ul>
+        <!-- v-once：只渲染一次，之后将被视为静态内容 -->
+        <li v-for="(user, index) in users" :key="index" v-once>{{user}}</li>
+      </ul>
+
+      <ul>
+        <li v-for="(user, index) in users" :key="index">{{user}}</li>
+      </ul>
+
+      <!-- 使用该指令可以提高编译速度。带有该指令的标签不会编译。
+
+       作用：
+        显示原始的模板内容（比如 {{msg}} 不会被渲染成数据，而是直接显示 {{msg}}）。
+        提高页面初次渲染速度（适合静态内容多的场景）。
+        -->
+        <h1 v-pre>加了v-pre，Vue就不会编译该标签。</h1>
+        <h1 v-pre>不会编译渲染成数据：{{msg}}</h1>
+    </div>
+
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          msg: "Vue其它的指令",
+          users: ["蔡徐坤", "丁真", "王源"],
+        },
+      });
+    </script>
+  </body>
+</html>
