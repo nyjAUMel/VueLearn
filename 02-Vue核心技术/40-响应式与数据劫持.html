@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{msg}}</h1>
+      <h1>{{a.b.c.d.e}}</h1>
+    </div>
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          msg: "响应式与数据劫持",
+          // Vue会给data中所有的属性，以及属性中的属性，都会添加响应式
+          a: {
+            b: {
+              c: {
+                d: {
+                  e: 1,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      // Vue2 的响应式原理不能检测对象新增的属性和数组索引的变动，直接赋值不会触发视图更新。
+    //   Vue.$data.a.email = "dj@qq.com";
+
+
+      /* 
+        Vue.set 方法是用来给响应式对象新增属性，并确保新属性也是响应式的（能被 Vue 监听和更新视图）。
+
+        作用：
+            让你在运行时给对象或数组添加新属性，并保证这些新属性能被 Vue 响应式系统追踪。
+            直接用 obj.newProp = xxx 添加的新属性，Vue2 无法监听，视图不会自动更新；用 Vue.set 添加的属性，视图会自动更新。
+
+        用 Vue.set 可以让新加的属性/数组项也具备响应式，页面会自动更新。
+        语法是 
+            Vue.set(对象, 属性名, 值) 或 Vue.set(数组, 索引, 值)
+        */
+      Vue.set(vm.$data.a,'email', 'nyj@qq.com');
+
+
+      /*
+      $data可以不写，因为 Vue 实例会把 data 里的属性代理到自身上，写起来更简洁、直观。
+
+      Vue.set(vm.a, 'email', 'nyj@qq.com'); // 推荐
+      或
+      Vue.set(vm.$data.a, 'email', 'nyj@qq.com'); // 也可以，但不常用
+      */
+
+      /* 
+      也可以用 vm.$set(vm.a, 'email', 'nyj@qq.com')，这两种写法都能让新属性变成响应式
+      用实例对象的 $set 或全局的 Vue.set 都可以追加响应式属性，推荐用 Vue.set，但两者都行。
+      
+      */
+    </script>
+  </body>
+</html>

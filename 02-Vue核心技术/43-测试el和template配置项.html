@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{elConfiguration}}</h1>
+      <h1>$mount挂载后会把这里所有的标签覆盖掉</h1>
+    </div>
+
+    <script>
+      const vm = new Vue({
+        // el: "#app",
+        // 别忘了template只能有一个根标签
+        template: '<h1>{{temConfiguration}}</h1>',
+        data: {
+          elConfiguration: "el配置项",
+          temConfiguration: 'template配置项'
+        },
+        /* 
+            有 el 配置时
+                Vue 会自动挂载实例到 el 指定的元素上。
+                如果有 template 选项，优先编译 template 的内容为模板。
+                如果没有 template，编译 el 指定元素的内容为模板。
+            没有 el 配置时
+                Vue 实例不会自动挂载，需要手动调用 vm.$mount(el) 进行挂载。
+                挂载时同样遵循：有 template 优先编译 template，没有 template 就编译 el 的内容。
+            
+            一句话总结：
+                有 template 就编译 template，没有 template 就编译 el 的内容。
+                el 可以在选项里写，也可以后续用 $mount 传入。
+        */
+      });
+
+      // 手动挂载会把原先的标签全部覆盖掉
+      vm.$mount('#app')
+
+
+
+      /* 
+      补充：
+        这里的“编译 el 或 template”指的是：
+            Vue 会把 el 元素的内容（或 template 选项里的内容）当作模板，经过编译处理，变成可以渲染的虚拟 DOM 和真实 DOM，并和数据进行绑定，实现数据驱动视图。
+        效果：
+            把你写的 HTML 模板（el 或 template）和 Vue 实例的数据关联起来。
+            当数据变化时，页面内容会自动更新。
+            你写的 {{msg}}、v-for、v-if 等语法，都会在编译阶段被 Vue 解析成渲染函数，最终生成真实的页面内容。
+      */
+    </script>
+  </body>
+</html>
