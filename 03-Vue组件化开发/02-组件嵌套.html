@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <!-- 
+    Vue 组件嵌套的步骤如下：
+        1. 先定义子组件
+        2. 在父组件中注册并使用子组件标签
+        3. 父组件再挂载到页面
+    
+    
+    -->
+    <div id="root"></div>
+
+    <script>
+      // 创建子组件
+      const y1 = {
+        template: `
+        <div>
+            <h3>y1组件</h3>
+        </div>
+        `,
+      };
+
+      const x1 = {
+        template: `
+        <div>
+            <h3>x1组件</h3>
+        </div>
+        `,
+      };
+
+      const y = {
+        template: `
+        <div>
+            <h2>y组件</h2>
+            <y1></y1>
+        </div>
+        `,
+        components: {
+          y1: y1,
+        },
+      };
+
+      const x = {
+        template: `
+        <div>
+            <h2>x组件</h2>
+            <x1></x1>
+        </div>
+        `,
+        components: {
+          x1: x1,
+        },
+      };
+
+      //创建组件
+      const app = {
+        template: `
+                <div>
+                    <h1>App组件</h1>
+                    <x></x>
+                    <y></y>
+                </div>
+            `,
+        // 在父组件里注册子组件(在哪注册的就只能在哪用)
+        components: {
+          x: x,
+          y: y,
+        },
+      };
+
+      const vm = new Vue({
+        el: "#root",
+        template: `<app></app>`,
+        data: {
+          msg: "组件嵌套",
+        },
+        components: {
+          //对象里如果key和value同名可以省略成一个
+          app,
+        },
+      });
+    </script>
+  </body>
+</html>

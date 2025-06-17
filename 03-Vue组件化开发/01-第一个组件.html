@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <!-- 
+    组件的使用分为三步：
+        1. 定义组件（全局或局部）
+            Vue.extend({该配置项几乎和new Vue相同，略有差别})
+                不同点：
+                    1. 创建Vue组件时，不能使用el配置项（但需要使用template配置项来配置模板语句）
+        2. 注册组件
+            局部注册：在配置项当中使用components:
+                语法格式：
+                    components:{
+                        组件名:组件
+                    }
+
+        3. 在模板中用自定义标签使用组件
+    
+
+    小细节：
+        1. Vue当中允许使用自闭合标签，但仅允许在脚手架环境当中写。在此处写好几个只能渲染一个。
+        2. 在创建组件的时候Vue.enxted()可以省略，但是底层在注册时实际上还是会调用的。
+        3. 组件的命名规则
+          1. 第一种：全部小写
+          2. 第二种：首字母大写，后面都是小写
+          3. 第三种：kebab-case命名法(user-login)。
+          4. 第四种：CamelCase命名法(UserLogin)，但只能在脚手架当中使用。(但我在这测试好像能用)
+          5. 不要使用HTML内置的标签名作为组件的名字
+    -->
+
+    <div id="app">
+      <h1>{{msg}}</h1>
+      <ul>
+        <!-- 3.使用组件 -->
+        <starlist></starlist>
+        <hr />
+        <!-- 复用组件 -->
+        <!-- 
+        注：
+            HTML 不区分大小写，会将其统一转换为小写，如果注册组件使用的是<starList>驼峰命名的话HTMl标签里会变成 <starlist>，但是组件名又不叫 <starlist>。所以要不组件名使用小写，要不用 - 隔开。
+         -->
+        <starlist></starlist>
+      </ul>
+      <login></login>
+    </div>
+
+    <div id="app2">
+      <h1>{{msg}}</h1>
+      <login></login>
+
+
+      <nametest></nametest>
+      <Nametest></Nametest>
+      <name-test></name-test>
+    </div>
+
+
+    <script>
+      // 测试组件的名字
+      const nameTest = {
+        // 这个配置项是用来配置Vue开发者工具显示的名字
+        name: 'YYDS',
+        template: `<h1>测试组件的名字</h1>`
+      }
+      Vue.component('nametest',nameTest)
+      Vue.component('Nametest',nameTest)
+      Vue.component('name-test',nameTest)
+      
+
+      // 1.创建组件
+      const showStarsComponent = Vue.extend({
+        template: `
+        <ul>
+            <li v-for="(star, index) in maleCelebrity" :key="star.id">{{star}}</li>
+        </ul>
+        `,
+        data() {
+          // 在 Vue 组件中，data 必须是一个返回对象的函数，即 data() { return { ... } }，返回的必须是对象。
+          /*
+          在组件中，data 必须写成函数形式，是因为每个组件实例都需要一份独立的数据。
+            如果 data 是对象，所有组件实例会共享同一个 data 对象，数据会互相影响（污染）。
+            写成函数，每次创建组件实例时，都会调用 data 函数，返回一个全新的对象，实现数据隔离。
+          */
+          return {
+            maleCelebrity: [
+              { id: 1, name: "马嘉祺", age: 20, power: "领导力" },
+              { id: 2, name: "丁程鑫", age: 21, power: "速度" },
+              { id: 3, name: "宋亚轩", age: 22, power: "智慧" },
+              { id: 4, name: "刘耀文", age: 23, power: "力量" },
+              { id: 5, name: "张真源", age: 24, power: "耐力" },
+              { id: 6, name: "严浩翔", age: 25, power: "飞行" },
+              { id: 7, name: "贺峻霖", age: 26, power: "隐身" },
+            ],
+          };
+        },
+      });
+
+      /* 
+      再创建一个组件
+        可以省略Vue.extend
+      */
+      const loginComponent = {
+        template: `
+        <div>
+          <h3>用户登录</h3>
+          <form @submit.prevent="login">
+            账号：<input type="text" v-model="username"> <br>
+            密码：<input type="password" v-model="password"><br>
+            <button>登录</button>
+          </form>
+        </div>
+        `,
+        data() {
+          return {
+            username: "",
+            password: "",
+          };
+        },
+        methods: {
+          login() {
+            alert(this.username + "->" + this.password);
+          },
+        },
+      };
+
+      // 注册全局组件
+      Vue.component("login", loginComponent);
+
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          msg: "Vue组件",
+        },
+        // 2. 注册组件
+        components: {
+          // 组件名:组件
+          // Vue 2.x 中注册组件时，如果使用的是 PascalCase 或 kebab-case，但在模板中只能使用 kebab-case。
+          starlist: showStarsComponent,
+          // 这里组件是局部注册，不能在别的Vue实例里使用。所以要改成全局注册(要在创建Vue实例以前)
+          // login: loginComponent,
+        },
+      });
+
+      // 第2个Vue实例
+      const vm2 = new Vue({
+        el: "#app2",
+        data: {
+          msg: "第二个Vue实例",
+        },
+      });
+    </script>
+  </body>
+</html>

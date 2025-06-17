@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{msg}}</h1>
+      <user></user>
+    </div>
+
+    <script>
+        Vue.prototype.counter = 666
+
+      const user = Vue.extend({
+        template: `
+            <div>
+                <h1>user组件</h1>
+            </div>
+            `,
+        mounted() {
+          // this是VueComponent实例
+          console.log("vc", this);
+          // vc是可以访问Vue原型对象上的属性的
+          // 底层原理：VueComponet.prototype.__proto__ = Vue.prototype
+          console.log("vc.counter", this.counter);
+        },
+      });
+
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          msg: "vm与vc",
+        },
+        components: {
+          user,
+        },
+        mounted() {
+          // this是Vue实例
+          console.log("vm", this);
+        },
+      });
+    </script>
+  </body>
+</html>
